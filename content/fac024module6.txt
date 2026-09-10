@@ -1,0 +1,26 @@
+%$Where can you check order status 24/7?$%,%$ask.gsa.gov - Register and check at any time.$%
+%$What is the National Customer Service Center phone number?$%,%$800-488-3111$%
+%$What are the hours of availability for the National Customer Service Center?$%,%$Sunday at 9 p.m. ET until Friday at 9:30 p.m. ET$%
+%$What email can be used to contact the National Customer Service Center?$%,%$NCSCcustomer.service@gsa.gov$%
+%$What services does the full-service NCSC provide?$%,%$Assistance and information including current pricing, order status, billing information, tracking of shipments, and more.$%
+%$What can you check by calling 800-488-3111?$%,%$Current pricing, order status, billing information, tracking of shipments, and more.$%
+%$What is GSA's commitment regarding military support?$%,%$GSA is proud to serve the military regardless of where they are stationed in the world.$%
+%$Where can you find the most up to date contact information for GSA Global Supply OCONUS support?$%,%$www.gsa.gov/globalsupplyoconus$%
+%$Where is GSA staff available in forward deployed environments?$%,%$Europe/Africa/Middle East (4 staff), Japan & Okinawa (1 each), Korea, Guam, and onsite daily with DLA Agency Sustainment Operations Center$%
+%$How many support staff members are available in Europe/Africa/Middle East?$%,%$4 staff members$%
+%$How many support staff members are available in Japan?$%,%$1 staff member$%
+%$How many support staff members are available in Okinawa?$%,%$1 staff member$%
+%$Is GSA support staff available in Korea?$%,%$Yes$%
+%$Is GSA support staff available in Guam?$%,%$Yes$%
+%$What is the GGS Ordering Guide?$%,%$A free publication that is an overview of the ordering process and a useful "how to" for folks unfamiliar with the GSA Global Supply program.$%
+%$What is the GGS Supply Catalog?$%,%$A product-focused publication available now that can be viewed online, downloaded, or requested as a printed copy.$%
+%$Where can you view or download GSA Global Supply publications?$%,%$Online at http://www.gsa.gov/cmls$%
+%$Can you request a printed copy of GSA Global Supply publications?$%,%$Yes, printed copies can be requested at http://www.gsa.gov/cmls$%
+%$What is the contact name for more information about GSA Global Supply publications?$%,%$Iris Wright-Simpson$%
+%$What is Iris Wright-Simpson's phone number?$%,%$(202) 880-3405$%
+%$What is Iris Wright-Simpson's email address?$%,%$Iris.Wright-Simpson@gsa.gov$%
+%$What are the main topics covered in the GSA Global Supply program description?$%,%$Product Availability, Supply Transformation, Order Placement and the Special Order Program, New options including Part Numbers and Global Reach, and Customer Service$%
+%$True or False: GSA Global Supply customer service is only available during business hours Monday through Friday.$%,%$False - NCSC is available Sunday at 9 p.m. ET until Friday at 9:30 p.m. ET.$%
+%$True or False: GSA only provides phone support for customer service.$%,%$False - Support is available via phone, email, and self-service option at ask.gsa.gov.$%
+%$True or False: GSA has staff available in forward deployed environments worldwide.$%,%$True - GSA has staff in Europe/Africa/Middle East, Japan, Okinawa, Korea, Guam, and onsite with DLA Agency Sustainment Operations Center.$%
+%$What three contact methods are available for GSA Global Supply Customer Service?$%,%$Phone (800-488-3111), email (NCSCcustomer.service@gsa.gov), and self-service option at ask.gsa.gov$%

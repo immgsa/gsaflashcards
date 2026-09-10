@@ -1,0 +1,21 @@
+%$What is GSA's goal regarding the supply chain?$%,%$To make the supply chain simple through greater customer choice, with all the safety and simplicity of GSA Global Supply so agencies can focus on their mission.$%
+%$What has GSA Global Supply undergone?$%,%$A part number expansion that will benefit customers.$%
+%$How many items now represent GSA Global Supply's product offering?$%,%$Roughly 1 million items identified by part number and not NSN.$%
+%$Why is GSA using commercial part numbers instead of issuing NSNs?$%,%$To avoid having to manage NSNs in perpetuity.$%
+%$What confidence can customers have about part number items?$%,%$They carry the same program benefits as NSNs, including ordering and payment options and requisition-based ordering.$%
+%$What is the standard prefix for MRO items?$%,%$FMRB$%
+%$On which websites are part number items identified?$%,%$Both GSA Global Supply (GGS) and GSA Advantage! websites, with "Contractor" marked as "GSA Global Supply"$%
+%$When does the new Kuwait FSP open?$%,%$Summer 2024$%
+%$What countries will the Kuwait FSP support?$%,%$Bahrain, Egypt, Iraq, Israel, Jordan, Kuwait, Oman, Qatar, Saudi Arabia, and United Arab Emirates (UAE)$%
+%$What was the traditional process for overseas orders?$%,%$Orders from customers in Europe or Asia flowed to GSA, vendor partners shipped them to a DLA consolidation point, DLA grouped items with their own products, filled containers, and put them on boats to reach customers overseas.$%
+%$What is the new program for far-flung customers?$%,%$GSA has partnered with vendors who stock high-demand items locally to deliver in just a few days instead of weeks or months.$%
+%$What regions do the new vendor partnerships service?$%,%$Germany, Alaska, Guam, Korea, Japan, Hawaii, and the Middle East$%
+%$How many high-demand NSNs are featured in the new program?$%,%$Hundreds of high-demand NSNs$%
+%$What ordering methods are available for the new vendor partnership service?$%,%$FEDSTRIP/MILSTRIP and now GSA Advantage! and GSA Global Supply websites$%
+%$What is the typical delivery timeframe for the new vendor partnership service?$%,%$3-5 days$%
+%$True or False: Part number items do not carry the same program benefits as NSN items.$%,%$False - Part number items carry the same program benefits as NSNs.$%
+%$True or False: GSA continues to issue NSNs for each new item to manage in perpetuity.$%,%$False - GSA is using commercial part numbers instead to avoid managing NSNs in perpetuity.$%
+%$True or False: The new Kuwait FSP service is only available via FEDSTRIP/MILSTRIP.$%,%$False - The service is available via FEDSTRIP/MILSTRIP and now GSA Advantage! and GSA Global Supply websites.$%
+%$True or False: The new vendor partnership program delivers items much slower than the traditional DLA shipment process.$%,%$False - The new program delivers in 3-5 days, much faster than traditional shipment from CONUS via DLA.$%
+%$What benefit do customers gain from the new vendor partnership program?$%,%$Customers receive items in days instead of weeks or months.$%
+%$How does the new program improve upon traditional overseas shipping?$%,%$Instead of waiting for containers to be filled and shipped via boat, vendors stock items locally and deliver in 3-5 days.$%

@@ -1,0 +1,77 @@
+%$Why should you order from GSA?$%,%$Because GSA does the procurement, your purchase is a simple government-to-government requisition with no need for agency contracting action or competition, and GSA ensures compliance with FAR, Section 889 of the NDAA, and other applicable regulations.$%
+%$What is GSA's focus regarding ordering options?$%,%$GSA is focused on providing flexible ordering options to save time and money by streamlining the order process.$%
+%$What IT hardware essentials is GSA Global Supply expanding to offer?$%,%$Laptops and desktops, Rugged tablets, Single-function and multifunction printers, and Monitors$%
+%$What web options are available for ordering from GSA Global Supply?$%,%$http://www.GSAglobalsupply.gsa.gov, http://www.gsaAdvantage.gov, and https://FedMall.mil$%
+%$What phone number can be used to place orders with GSA?$%,%$800-488-3111$%
+%$What fax number can be used to place orders with GSA?$%,%$800-856-7057$%
+%$What MILSTRIP ordering options are available?$%,%$Internal Supply System (such as GCSS-Army) or Manually via DD1348-6$%
+%$What are the multiple ordering options for placing an order via DoDAAC?$%,%$MILSTRIP via internal supply system, DoDAAC order via Web/Phone/Fax, Manual entry via SF 344 or DD 1348-6, or visit a local GSA Retail Store$%
+%$What websites use AAC or DoDAAC for ordering?$%,%$GSA Global Supply and GSA Advantage!$%
+%$What happens when you place an order with GSA utilizing your DoDAAC?$%,%$The order is integrated with your Agency's financial systems.$%
+%$How often are AAC/DoDAAC charges bundled and conveyed to the Treasury Department?$%,%$Twice a month - on the 1st and 15th of the month$%
+%$What should DoD buyers pay particular attention to minimize errors?$%,%$Using the correct Fund Code to ensure smooth processing of orders, billing, and payments$%
+%$What email address should be used for DoDAAC help?$%,%$OrderMgmt@gsa.gov$%
+%$What payment methods are accepted by GSA Global Supply?$%,%$Government Purchase Card, DoDAAC, and AAC$%
+%$What does GPC stand for?$%,%$Government Purchase Card$%
+%$What web, phone, and fax options accept Government Purchase Card?$%,%$All three - Web, Phone, and Fax$%
+%$What spending limits are available when placing requisitions with GSA Global Supply?$%,%$Generous spending limits are available when placing requisitions.$%
+%$When placing an order via Government Purchase Card, what will your credit card statement indicate as the supplier?$%,%$GSA$%
+%$What happens to all purchases made through GSA before submittal?$%,%$All purchases go through a pre-authorization prior to submittal.$%
+%$How many card billings does GSA process per month?$%,%$Tens of thousands of card billings per month$%
+%$What billing options does GSA offer?$%,%$Consolidated and line-item billing options$%
+%$What is the National Customer Service Center (NCSC) phone number for shipping and billing questions?$%,%$800-488-3111$%
+%$What is the primary advantage of direct billing over GPC for large transactions?$%,%$Direct billing allows for larger transactions that may exceed the limit of a GPC.$%
+%$What administrative advantage does direct billing provide?$%,%$Direct billing can help reduce administrative fees associated with managing and processing GPC transactions.$%
+%$Who can benefit from direct billing as an alternative?$%,%$Those who cannot be issued a traditional card/account.$%
+%$What tracking advantage does direct billing offer?$%,%$Direct billing can simplify tracking and reconciliation by managing one central bill rather than multiple GPC statements.$%
+%$What consolidation benefit does direct billing provide?$%,%$Direct billing allows for consolidation of purchases under one account, simplifying procurement and payment processes.$%
+%$True or False: The choice between GPC and direct billing should be based on the specific needs of the federal agency.$%,%$True$%
+%$What is the most highly recommended GSA Global Supply ordering site?$%,%$The GSA Global Supply ordering site at http://www.GSAglobalsupply.gsa.gov, which provides easy access to only those items available for requisitioning via GSA Global Supply.$%
+%$How many items are available on the GSA Global Supply website?$%,%$Approximately 1 million items, including both National Stock Numbers and part-numbered items.$%
+%$What does the GSA Global Supply site NOT include?$%,%$Acquisition-based items where FAR Subpart 8.4 applies.$%
+%$What does FAR 8.402 (c) state?$%,%$FAR Subpart 8.4 is not applicable to orders placed through the GSA Global Supply System.$%
+%$What payment methods can be used on the GSA Global Supply website?$%,%$DoDAAC or Government Purchase Card$%
+%$What tools does the GSA Global Supply website include?$%,%$Tools to check shipping status on requisitions, re-order quickly, utilize an electronic DD1348-6, and reconcile Government Purchase Card statements.$%
+%$Do you need to register to browse GSA Global Supply for availability and pricing?$%,%$No, registration is not required to research availability and pricing.$%
+%$What is required to place an order on GSA Global Supply?$%,%$You must either register or have someone in your office with an account place the order for you.$%
+%$Can GSA Advantage! users use the same user ID and password on GSA Global Supply?$%,%$Yes, GSA Advantage! users can gain access with the same user ID and password.$%
+%$What can you search for on the GSA Global Supply shopping page?$%,%$NSN or part number (if you know it) or a general search term like copier paper.$%
+%$How can you obtain a GSA Global Supply catalog?$%,%$Click the Supply Catalog link to order a copy, which can be viewed online or mailed free anywhere in the world.$%
+%$What information is provided in the Requisition Status field?$%,%$Enter a requisition number to quickly get an update on order status.$%
+%$What is the FEDSTRIP/MILSTRIP electronic form feature?$%,%$An electronic version of Form 1348-6 or 344 to easily compile orders.$%
+%$What is the Quick Order feature?$%,%$A feature allowing you to enter the NSN or Part Number and quantity to order, then go straight to checkout.$%
+%$What reorder feature is available?$%,%$A reorder feature if you want to rebuy a product you own.$%
+%$What sorting options are available in GSA Global Supply search results?$%,%$Most relevant, NSN/MFR part number, Product name, Manufacturer name, Price - ascending, and Price - descending$%
+%$What do icons in search results indicate?$%,%$Icons relative to the item are displayed and can be clicked to view a legend with definitions.$%
+%$Are all items in GSA Global Supply search results hyperlinks?$%,%$Yes, each NSN/Part Number in search results is a hyperlink to a more detailed view.$%
+%$What should you remember about price comparison on the GSA Global Supply site?$%,%$All Schedule options are acquisitions and only the GSA Global Supply choice is a simple requisition.$%
+%$Who is the contractor for every item on the GSA Global Supply site?$%,%$GSA Global Supply - everything shown is a simple requisition from GSA Global Supply.$%
+%$What information is displayed on the Product Detail page?$%,%$A full description of the item, option to add item to cart, and all icons related to the item with titles.$%
+%$What is GSA Advantage!?$%,%$A website that includes full access to items available via GSA Global Supply on a requisition basis as well as millions of items available on an acquisition basis via GSA Multiple Award Schedule vendors.$%
+%$What FAR regulation applies to acquisition-based items on GSA Advantage!?$%,%$FAR Subpart 8.4 applies to acquisition-based items.$%
+%$What payment method is required for MAS item purchases on GSA Advantage!?$%,%$Government Purchase Card (GPC)$%
+%$What payment methods can be used on GSA Advantage! for GSA Global Supply items?$%,%$DoDAAC or Government Purchase Card$%
+%$Where do GGS options appear in GSA Advantage! search results?$%,%$GGS options always appear at the top of the list and are clearly marked as a requisition.$%
+%$True or False: MAS items on GSA Advantage! are marked as acquisitions.$%,%$False - MAS items are acquisitions, but are not marked as such.$%
+%$What can you do by clicking on any item in GSA Advantage! search results?$%,%$See more detail and compare price, delivery timing, and other attributes from multiple sources offering the same item.$%
+%$What does the Green Item icon indicate on GSA Advantage!?$%,%$It indicates the item in search results is a green item.$%
+%$What is FedMall?$%,%$The DLA website launched in 2017 to replace DoD EMALL, where customers have access to GSA Global Supply product line.$%
+%$What payment methods are available on FedMall?$%,%$Only AAC and DoDAAC$%
+%$What can FedMall be used for?$%,%$Research and ordering of GSA Global Supply NSNs and part-numbered items.$%
+%$What is the Special Order Program (SOP)?$%,%$A program that allows customers to requisition products not already under contract in the GSA Global Supply offering for compliance with procurement regulations.$%
+%$What product categories does SOP support?$%,%$Products and ancillary services within the commodity classes that GSA Global Supply manages.$%
+%$What types of products are included in SOP offerings?$%,%$Tools and hardware, office products, cleaning supplies, and safety equipment.$%
+%$What ordering methods can be used for SOP?$%,%$MILSTRIP or MIPR (Military Interdepartmental Purchase Request)$%
+%$What customer base can use SOP?$%,%$The global customer base$%
+%$What requirement levels does SOP support?$%,%$Requirements ranging from simple to complex, from low cost to above the Simplified Acquisition Threshold.$%
+%$What is the email address for the Special Order Desk?$%,%$SpecialOrderProgram@gsa.gov$%
+%$What type of acquisition is SOP?$%,%$Fee-for-service assisted acquisition$%
+%$What support does GSA provide through SOP?$%,%$Complete acquisition, administration, logistics, and payment support.$%
+%$What limitation applies to SOP?$%,%$Limited to products and ancillary services for commodity classes that GSA Global Supply manages.$%
+%$Why does GSA sometimes have difficulty contacting customers?$%,%$Many MILSTRIP orders flow through DLMS without contact information, and while GSA sees the DoDAAC, they can't easily reach a person.$%
+%$What data fields can be used to insert contact information in orders?$%,%$Mark For data fields to insert contact info including name and phone number.$%
+%$What benefits result from providing contact information in Mark For fields?$%,%$GSA can clarify buyer needs, confirm quantity, arrange delivery/special requirements, and ensure base access if needed.$%
+%$True or False: GSA orders require comparison shopping and documentation of three sources.$%,%$False - Simple requisitions require no need to comparison shop or document 3 sources.$%
+%$True or False: FAR Subpart 8.4 applies to orders placed through the GSA Global Supply System.$%,%$False - FAR Subpart 8.4 is not applicable to orders placed through the GSA Global Supply System.$%
+%$True or False: Registration is required to browse GSA Global Supply for availability and pricing.$%,%$False - No registration is required to research availability and pricing.$%
+%$True or False: All items visible on GSA Advantage! are requisitions.$%,%$False - GGS items are requisitions, but MAS items are acquisitions.$%
