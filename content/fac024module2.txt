@@ -1,0 +1,40 @@
+%$What commodities were assigned to GSA?$%,%$FSCs or commodities commonly used by federal agencies which are commercially available on the civilian economy and not predominantly of a military nature.$%
+%$How many National Stock Numbers does GSA manage?$%,%$Approximately 50,000 National Stock Numbers$%
+%$What are the key FSCs assigned to GSA?$%,%$Tools and hardware, Housewares, Food service & Cleaning, and Office products (including shipping supplies and packaging supplies)$%
+%$How many National Stock Numbers are contained in each GSA FSC?$%,%$Hundreds to thousands of National Stock Numbers in each FSC$%
+%$What commodities were assigned to DLA?$%,%$FSCs or commodities commonly used in military operations or weapons systems support, irrespective of their use by civil agencies.$%
+%$How many National Stock Numbers does DLA manage?$%,%$Approximately 3.9 Million National Stock Numbers$%
+%$When did GSA Global Supply expand its product offering to Part Numbers?$%,%$2006$%
+%$What categories were included in GSA Global Supply's 2006 product expansion?$%,%$Office supplies, Tools/hardware, and IT hardware basics like laptops, rugged tablets, printers and monitors$%
+%$What industry partnerships does GSA Global Supply have?$%,%$Partnerships with industry leaders to provide access to brand name items in a requisition-based environment.$%
+%$What pricing benefit does GSA provide customers?$%,%$GSA Global Supply has negotiated fair and reasonable pricing so customers simply have to place the order.$%
+%$What is AbilityOne?$%,%$A program that provides jobs for individuals who are blind or who have other disabilities by ensuring federal agencies purchase products made by them.$%
+%$Who are GSA's AbilityOne partners?$%,%$The National Industries for the Blind and SourceAmerica$%
+%$How many AbilityOne items are available from GSA Global Supply?$%,%$More than 3,000 AbilityOne items$%
+%$When must federal agencies buy AbilityOne products?$%,%$By law, federal agencies are required to buy products made by people who are blind or have significant disabilities.$%
+%$When does the AbilityOne requirement date back to?$%,%$The late 1930s$%
+%$How does GSA help customers with AbilityOne compliance?$%,%$GSA marks AbilityOne items clearly on websites and in publications and reviews offerings regularly to ensure no commercial items are "essentially the same" as those made by AbilityOne.$%
+%$What is GSA's sustainability commitment?$%,%$GSA is committed to "greening" its product line by continuously increasing access to sustainable product offerings.$%
+%$How many National Stock Numbers have green attributes?$%,%$Approximately 3,000 National Stock Numbers with green attributes, and that number is growing.$%
+%$What environmental goals is GSA partnered with DoD to meet?$%,%$PRIME (Plastics Removal in the Marine Environment), Low Volatile Organic Compounds (VOC) requirements, and Green alternatives to chemicals$%
+%$What is PRIME?$%,%$Plastics Removal in the Marine Environment - an environmental goal GSA is partnered with DoD to meet.$%
+%$What does VOC stand for?$%,%$Volatile Organic Compounds$%
+%$What is FSSI?$%,%$Federal Strategic Sourcing Initiative - an initiative where GSA Global Supply expands the scope of its contracts and leverages strategic sourcing vehicles to drive down pricing and delivery time.$%
+%$What categories are covered under GSA's FSSI contracts?$%,%$Office supplies, Janitorial and sanitation items (JanSan), and Maintenance, repair, and operating (MRO) items$%
+%$What is the intent of FSSI?$%,%$To leverage the buying power of the federal government to secure better pricing, help track spending data, and satisfy socioeconomic purchasing goals.$%
+%$What is the Purchasing Channel?$%,%$FSSI contracts for office supplies, Janitorial and sanitation items, and MRO items that have been operating for several years.$%
+%$What is the Requisition Channel?$%,%$Newer FSSI contract vehicles used for Global Supply requisitions.$%
+%$What is the Special Order Program (SOP)?$%,%$A program that allows customers to requisition products not already under contract in the GSA Global Supply offering (both existing Part Numbers and National Stock Numbers).$%
+%$What products can GSA purchase through SOP?$%,%$Only products and ancillary services within the Federal Supply Classes that GSA Global Supply manages.$%
+%$What ordering methods can be used for SOP?$%,%$MILSTRIP or Military Interdepartmental Purchase Request (MIPR)$%
+%$What does MILSTRIP stand for?$%,%$Military Standard Requisitioning and Issue Procedures$%
+%$What does MIPR stand for?$%,%$Military Interdepartmental Purchase Request$%
+%$What does GSA Global Supply handle under SOP?$%,%$End-to-end support from initial acquisition of the item to shipment at customer location and payment to the vendor.$%
+%$Can SOP support be provided worldwide?$%,%$Yes, GSA can provide SOP support worldwide.$%
+%$What is an example of SOP support?$%,%$A mobile incinerator (for trash) that was delivered to central Afghanistan.$%
+%$What approach does GSA take with SOP requests?$%,%$GSA seeks the simplest solution - if a customer only needs items through MAS, GSA can do that, but can also manage an entire procurement if necessary.$%
+%$Who can use SOP support?$%,%$Both military and civilian customers$%
+%$What is the split of consumable item management in the National Supply System?$%,%$Management is split between DLA and GSA.$%
+%$What product categories do GSA have beyond NSNs?$%,%$A substantial number of Part Numbers available for ordering$%
+%$What does JanSan stand for?$%,%$Janitorial and Sanitation items$%
+%$What does MRO stand for?$%,%$Maintenance, Repair, and Operating items$%

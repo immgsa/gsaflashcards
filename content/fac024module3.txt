@@ -1,0 +1,22 @@
+%$What is Supply Transformation?$%,%$GSA is transforming its wholesale and retail supply program to offer customers lower costs and faster delivery worldwide. This modernization process includes acquisition, distribution, information technology, and customer service functions.$%
+%$What modernization processes are included in Supply Transformation?$%,%$Acquisition, distribution, information technology, and customer service functions$%
+%$What is the Transparency benefit of Supply Transformation?$%,%$IT enhancements increased the level of transparency to better see order status and tracking information on individual shipments, and comply with DLMS standards.$%
+%$What does DLMS stand for?$%,%$Defense Logistics Management Systems$%
+%$What is the Better Service benefit of Supply Transformation?$%,%$Achieving faster delivery for wholesale customers and more attractive retail settings worldwide by streamlining vendor partners and standardizing delivery time and packaging standards.$%
+%$What is the Savings benefit of Supply Transformation?$%,%$Incorporation of FSSI Acquisition channels to lower overall product cost by leveraging the buying power of the government to negotiate better prices and save taxpayer money.$%
+%$What is the DoD Compliance benefit of Supply Transformation?$%,%$Ensure GSA's timely integration with Defense Logistics Management Systems (DLMS) requirements.$%
+%$What is Enhanced Efficiency in Supply Transformation?$%,%$Supply Transformation initiatives streamline processes, making it easier and faster for government agencies to procure goods and services they need.$%
+%$What is the Sustainability benefit of Supply Transformation?$%,%$GSA focuses on environmentally sustainable solutions.$%
+%$What is the Innovation benefit of Supply Transformation?$%,%$GSA encourages the adoption of emerging technologies and innovative practices within federal procurement.$%
+%$What is the Economic Development benefit of Supply Transformation?$%,%$GSA Global Supply partners with hundreds of vendor partners, most of them small businesses, to provide a wide array of products and foster economic development while building an effective supply chain.$%
+%$How many vendor partners does GSA Global Supply work with?$%,%$Hundreds of vendor partners, most of them small businesses$%
+%$Does Supply Transformation change the basic ordering process?$%,%$No, GSA continues to offer simple, requisition-based ordering and whatever method customers like to place orders will still be available.$%
+%$What customer service phone number does GSA provide?$%,%$(800) 488-3111$%
+%$What ordering options are available through GSA?$%,%$Online, phone, fax, FEDSTRIP/MILSTRIP$%
+%$What does FEDSTRIP stand for?$%,%$Federal Standard Requisitioning and Issue Procedures$%
+%$Does GSA require comparison shopping or documentation of 3 sources for requisitions?$%,%$No, simple requisitions for GSA items require no need to comparison shop or document 3 sources.$%
+%$What support is available for large, complex items?$%,%$Special Order support for large, complex items beyond the scope of a wholesale operation.$%
+%$True or False: With Supply Transformation, GSA no longer offers customer service support.$%,%$False - No matter which partner ships an item to you, you can always call GSA to access customer service and resolve a problem.$%
+%$True or False: Supply Transformation eliminates requisition-based ordering.$%,%$False - GSA continues to offer simple, requisition-based ordering.$%
+%$What are the key benefits of Supply Transformation?$%,%$Enhanced efficiency, Cost savings, Sustainability, Innovation, Transparency, Better service, and DoD compliance$%
+%$What does Supply Transformation aim to do?$%,%$Modernize and improve the efficiency of government procurement and supply services.$%

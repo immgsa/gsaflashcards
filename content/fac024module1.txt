@@ -1,0 +1,66 @@
+%$What is GSA Global Supply?$%,%$It is directed and managed by the General Services Administration (GSA) and provides federal agencies with a simplified process for obtaining commonly used supplies at prices associated with volume buying.$%
+%$When was the GSA established?$%,%$July 1, 1949, by President Harry Truman$%
+%$What was the original purpose of GSA?$%,%$To streamline the administrative work of the federal government.$%
+%$How many functions did GSA consolidate?$%,%$Six functions: The National Archives Establishment, The Federal Works Agency, The Public Buildings Administration, The Bureau of Federal Supply, The Office of Contract Settlement, and The War Assets Administration$%
+%$What were the original missions of GSA?$%,%$Disposing of war surplus goods, managing and storing government records, handling emergency preparedness, and stockpiling strategic supplies for wartime$%
+%$What are GSA's two largest functions?$%,%$The Public Buildings Service and the Federal Acquisition Service$%
+%$How many federal civilian workers does GSA provide workspace for?$%,%$More than 1 million$%
+%$What is the Federal Acquisition Service (FAS)?$%,%$It facilitates the purchase of goods and services by other federal agencies and provides an economical and efficient system for procurement, supply, and disposal of property.$%
+%$What is Public Law 436?$%,%$The Defense Cataloging and Standardization Act, approved July 1, 1952, which established a single catalog system and supply standardization program for the National Supply System$%
+%$What does Section 11 of Public Law 436 require?$%,%$GSA and DoD must coordinate cataloging and standardization activities to avoid unnecessary duplication.$%
+%$What was the 1971 GSA and DoD agreement?$%,%$An agreement to eliminate avoidable overlap by dividing management of consumable items: GSA manages commercially available items, and DLA manages military-nature items.$%
+%$What does FSC stand for?$%,%$Federal Supply Classes - commodities commonly used by federal agencies$%
+%$What is GSA Global Supply?$%,%$A part of the Federal Acquisition Service and a government-to-government supply source for commodities assigned to GSA under the 1971 GSA/DoD agreement$%
+%$What makes GSA Global Supply a wholesale supply source?$%,%$GSA has already procured the most in-demand products on the Government's behalf, making orders simple requisitions between agencies.$%
+%$According to FAR 8.002, what is GSA referenced as?$%,%$A wholesale supply source that agencies should utilize for supply requirements$%
+%$What is the key difference between ordering from GSA Global Supply vs. a vendor?$%,%$You are placing an order directly with the Government - GSA has already procured the item on your behalf.$%
+%$What does it mean to be a Government-to-Government Wholesale Supply Source?$%,%$GSA has already procured the most in-demand products on the Government's behalf, so your order is a simple requisition between agencies.$%
+%$What are the benefits of using GSA Global Supply?$%,%$You don't have to compete for best prices or worry about where products are manufactured, and requisitions satisfy all FAR requirements.$%
+%$What FAR requirements do GSA requisitions satisfy?$%,%$All FAR requirements plus trade agreement policies, socioeconomic goals, AbilityOne mandates, and executive orders.$%
+%$What three payment methods can be used with GSA Global Supply?$%,%$DoD Activity Address Code (DoDAAC), Civilian Activity Address Code, and Government Purchase Card (GPC)$%
+%$How many items are available from GSA Global Supply?$%,%$Approximately 1 million items in various categories including office supplies, furniture, tools, etc.$%
+%$What is GGS?$%,%$GSA Global Supply - a government-to-government wholesale supply source$%
+%$When purchasing with GGS, what does the bill say and who do customers call for problems?$%,%$The bill says "GSA" is the provider, and customers call GSA if there is a problem.$%
+%$What is GSA Advantage!?$%,%$It displays the same 1 million items from GGS, along with over 50 million items from MAS (Multiple Award Schedule) vendors.$%
+%$What payment methods are allowed when buying only GGS items through Advantage!?$%,%$Either GPC or AAC/DoDAAC$%
+%$What payment method is required when ordering MAS items through Advantage!?$%,%$Government Purchase Card (GPC)$%
+%$What is the difference between purchasing from GSS vs. purchasing from a MAS vendor?$%,%$GGS purchases are requisitions, while MAS vendor purchases are acquisitions with different rules on payment and different FAR sections.$%
+%$What is FAR 8.002?$%,%$It outlines priorities for use of Government supply sources that agencies should satisfy requirements from.$%
+%$What are the priorities listed in FAR 8.002?$%,%$Agency Inventories, Excess from other agencies, Federal Prison Industries (UNICOR), Supplies on the Procurement List for the Blind/Severely Disabled, and Wholesale supply sources.$%
+%$What is GSA's Personal Property Management (PPM)?$%,%$A program that oversees the PPMS property excess and disposal program, allowing agencies to post excess property for use by other federal agencies.$%
+%$Where can you access GSA's Personal Property Management System?$%,%$At https://ppms.gov$%
+%$What is the first source of supply according to FAR 8.002?$%,%$Personal Property Management (PPM) - before considering any purchase alternatives.$%
+%$How do DoD customers access GSA Global Supply products?$%,%$Directly through their internal supply systems as they are integrated in the national supply system.$%
+%$What are GSA-managed National Stock Numbers?$%,%$Stock numbers available directly through DoD service-specific internal supply systems for requisitioning.$%
+%$What happens after an order is placed through a supply system?$%,%$The requisition is routed via DLA to GSA for fulfillment. If it's a DLA managed item, it goes to DLA.$%
+%$How are status updates provided for orders?$%,%$They are routed back through the customer's internal supply system.$%
+%$What do military regulations cite as part of DoD logistics guidance?$%,%$GSA policy and procedures$%
+%$What do Forward Supply Points (FSPs) do?$%,%$They stock 500-1,000 high-demand items and deliver them in less than a week, supporting overseas customers.$%
+%$Where does GSA manage Forward Supply Points?$%,%$Europe, Alaska, Guam, Hawaii, Japan, Korea, and Kuwait (summer 2024)$%
+%$How much faster are FSP deliveries compared to shipment from the U.S.?$%,%$Dramatically faster - FSPs deliver in less than a week.$%
+%$What happens to items not stocked locally at FSPs?$%,%$They are still shipped from CONUS. Customers pay more for FSP items but welcome the faster delivery.$%
+%$How do customers order from FSPs?$%,%$They order and pay as they normally would; GSA systems recognize their location and fulfill orders from the FSP when possible.$%
+%$What are GSA Customer Supply Centers?$%,%$Walk-in stores, dozens located both CONUS and OCONUS, where customers can walk aisles and take immediate possession at checkout.$%
+%$Who manages GSA Customer Supply Centers (walk-in stores)?$%,%$They are not managed by GGS.$%
+%$What was GSA Global Supply's FY23 business volume?$%,%$$1 billion$%
+%$What percentage of GSA Global Supply's business is from the Department of Defense?$%,%$Over 90%$%
+%$What types of support does GSA Global Supply provide?$%,%$Mission support to the warfighter and civilian agencies, disaster relief or emergency response, and logistics support.$%
+%$How many acquisition teams does GSA Global Supply have?$%,%$Multiple acquisition teams that manage roughly 1 million items.$%
+%$What does GSA Global Supply provide in addition to acquisition teams?$%,%$Special order support and dozens of retail stores around the world.$%
+%$What designation has GSA Global Supply received from OMB?$%,%$Best-in-Class (BIC) solution$%
+%$What makes GSA Global Supply a unique Best-in-Class solution?$%,%$It is a broad solution covering many product categories (office supplies, furniture, cleaning supplies, tools, etc.) rather than narrowly defined.$%
+%$What compliance does GSA Global Supply guarantee?$%,%$Compliance with Section 889 of the National Defense Authorization Act that prohibits procurement of certain covered telecommunication services or equipment.$%
+%$What are the key takeaways about GSA?$%,%$GSA was established July 1, 1949 by President Truman, has evolved over the years, has already procured in-demand products for simple requisitions between agencies, and is designated as a Best-in-Class solution by OMB.$%
+%$What year was the Defense Cataloging and Standardization Act approved?$%,%$1952$%
+%$What is the Defense Supply Agency now called?$%,%$Defense Logistics Agency (DLA)$%
+%$What does DoDAAC stand for?$%,%$DoD Activity Address Code$%
+%$What does GPC stand for?$%,%$Government Purchase Card$%
+%$What does MAS stand for?$%,%$Multiple Award Schedule$%
+%$What does CONUS mean?$%,%$Continental United States$%
+%$What does OCONUS mean?$%,%$Outside Continental United States$%
+%$What does PPMS stand for?$%,%$Personal Property Management System$%
+%$What does OMB stand for?$%,%$Office of Management and Budget$%
+%$What does UNICOR stand for?$%,%$Federal Prison Industries, Inc.$%
+%$How many historic buildings does GSA oversee?$%,%$More than 480$%
+%$What is the safety advantage of GSA requisition buying?$%,%$The simplicity and safety of requisition buying makes it a great tool for compliance.$%
+%$What was GSA created to accomplish?$%,%$To streamline the administrative work of the federal government.$%
