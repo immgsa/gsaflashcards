@@ -50,80 +50,8 @@
             font-size: 1em;
         }
 
-        /* Upload Section */
-        .upload-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8f9ff;
-        }
-
-        .upload-area:hover {
-            border-color: #764ba2;
-            background: #f0f2ff;
-            transform: translateY(-2px);
-        }
-
-        .upload-area.dragover {
-            border-color: #764ba2;
-            background: #e8ebff;
-            transform: scale(1.02);
-        }
-
-        .upload-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-
-        .upload-area p {
-            color: #333;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .upload-area small {
-            color: #999;
-            display: block;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .file-list {
-            background: #f8f9ff;
-            border-radius: 10px;
-            padding: 15px;
-            max-height: 150px;
-            overflow-y: auto;
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .file-list li {
-            list-style: none;
-            padding: 5px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .file-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Loading Screen */
-        .loading-screen {
+        /* Loading Section */
+        .loading-section {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -173,6 +101,45 @@
 
         .begin-button:active {
             transform: translateY(0);
+        }
+
+        /* File List */
+        .file-list {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-list h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .file-list ul {
+            list-style: none;
+        }
+
+        .file-list li {
+            padding: 8px 0;
+            color: #666;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-list li:last-child {
+            border-bottom: none;
+        }
+
+        .file-list li:before {
+            content: "✓";
+            color: #4ecdc4;
+            font-weight: bold;
         }
 
         /* Quiz Section */
@@ -302,22 +269,6 @@
             cursor: not-allowed;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
         /* Action Buttons */
         .action-buttons {
             display: flex;
@@ -411,6 +362,20 @@
         .error-message.show {
             display: block;
         }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -421,22 +386,20 @@
         </div>
 
         <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
 
-        <!-- Upload Section -->
-        <div id="uploadSection" class="upload-section">
-            <div id="uploadArea" class="upload-area">
-                <div class="upload-icon">📁</div>
-                <p>Drop your .txt files here</p>
-                <small>or click to browse</small>
-            </div>
-            <input type="file" id="fileInput" multiple accept=".txt">
-            <ul id="fileList" class="file-list"></ul>
+        <!-- Loading Section -->
+        <div id="loadingSection" class="loading-section">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading your flashcards...</div>
         </div>
 
-        <!-- Loading Screen -->
-        <div id="loadingScreen" class="loading-screen" style="display: none;">
-            <div class="spinner"></div>
-            <div class="loading-text">Processing your flashcards...</div>
+        <!-- File List -->
+        <div id="fileListSection" style="display: none;">
+            <div class="file-list">
+                <h3>📄 Loaded Files</h3>
+                <ul id="fileListUL"></ul>
+            </div>
         </div>
 
         <!-- Begin Quiz Button -->
@@ -480,26 +443,30 @@
 
             <div class="action-buttons">
                 <button id="shuffleBtn" class="shuffle-button">🔀 Shuffle Again</button>
-                <button id="resetBtn" class="reset-button">↻ Reset & Upload New</button>
+                <button id="resetBtn" class="reset-button">↻ Reset & Reload</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Configuration - UPDATE THESE WITH YOUR GITHUB INFO
+        const GITHUB_USERNAME = 'immgsa'; // Replace with your GitHub username
+        const REPO_NAME = 'gsaflashcards'; // Replace with your repo name
+        const CONTENT_FOLDER = 'content'; // Folder containing .txt files
+
         // State Management
         let flashcards = [];
         let currentIndex = 0;
         let isFlipped = false;
+        let loadedFiles = [];
 
         // DOM Elements
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileList = document.getElementById('fileList');
-        const loadingScreen = document.getElementById('loadingScreen');
+        const loadingSection = document.getElementById('loadingSection');
+        const fileListSection = document.getElementById('fileListSection');
+        const fileListUL = document.getElementById('fileListUL');
         const beginButtonContainer = document.getElementById('beginButtonContainer');
         const beginButton = document.getElementById('beginButton');
         const quizSection = document.getElementById('quizSection');
-        const uploadSection = document.getElementById('uploadSection');
         const flashcard = document.getElementById('flashcard');
         const frontContent = document.getElementById('frontContent');
         const backContent = document.getElementById('backContent');
@@ -511,37 +478,70 @@
         const resetBtn = document.getElementById('resetBtn');
         const shuffleBtn = document.getElementById('shuffleBtn');
         const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
         const flashcardContainer = document.getElementById('flashcardContainer');
 
-        // Upload Area Click
-        uploadArea.addEventListener('click', () => fileInput.click());
-
-        // Drag & Drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
+        // Initialize - Auto-load files on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFlashcardsFromGitHub();
         });
 
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
+        // Load Files from GitHub
+        async function loadFlashcardsFromGitHub() {
+            try {
+                // First, get the list of files in the content folder
+                const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
+                
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch files: ${response.status}`);
+                }
 
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.txt'));
-            processFiles(files);
-        });
+                const files = await response.json();
 
-        // File Input Change
-        fileInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files).filter(f => f.name.endsWith('.txt'));
-            processFiles(files);
-        });
+                if (!Array.isArray(files)) {
+                    throw new Error('No files found in content folder');
+                }
+
+                // Filter for .txt files
+                const txtFiles = files.filter(file => file.name.endsWith('.txt'));
+
+                if (txtFiles.length === 0) {
+                    throw new Error('No .txt files found in content folder');
+                }
+
+                // Load each .txt file
+                flashcards = [];
+                loadedFiles = [];
+
+                for (const file of txtFiles) {
+                    const fileContent = await fetch(file.download_url);
+                    const text = await fileContent.text();
+                    const cards = parseFlashcards(text);
+                    flashcards.push(...cards);
+                    loadedFiles.push(file.name);
+                }
+
+                if (flashcards.length === 0) {
+                    throw new Error('No valid flashcards found. Check your file format.');
+                }
+
+                // Shuffle the flashcards
+                flashcards = shuffleArray(flashcards);
+
+                // Update UI
+                updateFileList();
+                showBeginButton();
+
+            } catch (error) {
+                showError(`Error loading flashcards: ${error.message}`);
+                console.error('Full error:', error);
+            }
+        }
 
         // Shuffle Function (Fisher-Yates Algorithm)
         function shuffleArray(array) {
-            const shuffled = [...array]; // Create a copy
+            const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -549,47 +549,7 @@
             return shuffled;
         }
 
-        // Process Files
-        async function processFiles(files) {
-            if (files.length === 0) {
-                showError('Please select .txt files');
-                return;
-            }
-
-            flashcards = [];
-            const fileNames = [];
-
-            for (const file of files) {
-                fileNames.push(file.name);
-                const text = await file.text();
-                const cards = parseFlashcards(text);
-                flashcards.push(...cards);
-            }
-
-            // Update file list
-            fileList.innerHTML = fileNames
-                .map(name => `<li>✓ ${name}</li>`)
-                .join('');
-
-            if (flashcards.length === 0) {
-                showError('No valid flashcards found. Check your file format: %$front content$%,%$back content$%');
-                return;
-            }
-
-            // SHUFFLE THE FLASHCARDS
-            flashcards = shuffleArray(flashcards);
-
-            // Show loading screen
-            showLoadingScreen();
-
-            // Simulate 2-second processing
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Show begin button
-            showBeginButton();
-        }
-
-        // Parse Flashcards with %$ $% separator
+        // Parse Flashcards
         function parseFlashcards(text) {
             const lines = text.split('\n').filter(line => line.trim());
             const cards = [];
@@ -604,7 +564,7 @@
                         back: match[2].trim()
                     });
                 }
-                // Fallback to comma separator if no %$ pattern found
+                // Fallback to comma separator
                 else if (line.includes(',')) {
                     const [front, back] = line.split(',').map(s => s.trim());
                     if (front && back) {
@@ -616,17 +576,17 @@
             return cards;
         }
 
-        // Show Loading Screen
-        function showLoadingScreen() {
-            uploadSection.style.display = 'none';
-            loadingScreen.style.display = 'flex';
-            beginButtonContainer.style.display = 'none';
-            quizSection.style.display = 'none';
+        // Update File List Display
+        function updateFileList() {
+            fileListUL.innerHTML = loadedFiles
+                .map(name => `<li>${name}</li>`)
+                .join('');
         }
 
         // Show Begin Button
         function showBeginButton() {
-            loadingScreen.style.display = 'none';
+            loadingSection.style.display = 'none';
+            fileListSection.style.display = 'block';
             beginButtonContainer.style.display = 'block';
             quizSection.style.display = 'none';
         }
@@ -635,8 +595,8 @@
         beginButton.addEventListener('click', () => {
             currentIndex = 0;
             isFlipped = false;
-            uploadSection.style.display = 'none';
-            loadingScreen.style.display = 'none';
+            loadingSection.style.display = 'none';
+            fileListSection.style.display = 'none';
             beginButtonContainer.style.display = 'none';
             quizSection.style.display = 'block';
             updateDisplay();
@@ -688,6 +648,7 @@
                 currentIndex = 0;
                 isFlipped = false;
                 updateDisplay();
+                showSuccess('Flashcards reshuffled!');
             }
         });
 
@@ -696,21 +657,31 @@
             flashcards = [];
             currentIndex = 0;
             isFlipped = false;
-            fileList.innerHTML = '';
-            fileInput.value = '';
-            uploadSection.style.display = 'flex';
-            quizSection.style.display = 'none';
+            loadedFiles = [];
+            loadingSection.style.display = 'flex';
+            fileListSection.style.display = 'none';
             beginButtonContainer.style.display = 'none';
+            quizSection.style.display = 'none';
             errorMessage.classList.remove('show');
+            loadFlashcardsFromGitHub();
         });
 
         // Error Handling
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.classList.add('show');
+            loadingSection.style.display = 'none';
             setTimeout(() => {
                 errorMessage.classList.remove('show');
-            }, 5000);
+            }, 7000);
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
         }
     </script>
 </body>
