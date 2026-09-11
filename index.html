@@ -94,52 +94,124 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
-        .begin-button:hover {
+        .begin-button:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .begin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .begin-button:active {
             transform: translateY(0);
         }
 
-        /* File List */
-        .file-list {
+        /* Module Selection */
+        .module-selection {
             background: #f8f9ff;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            max-height: 200px;
-            overflow-y: auto;
         }
 
-        .file-list h3 {
+        .module-selection h3 {
             color: #667eea;
             margin-bottom: 15px;
             font-size: 1.1em;
         }
 
-        .file-list ul {
-            list-style: none;
+        .module-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .file-list li {
-            padding: 8px 0;
-            color: #666;
-            border-bottom: 1px solid #e0e0e0;
+        .module-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .file-list li:last-child {
-            border-bottom: none;
+        .module-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
         }
 
-        .file-list li:before {
-            content: "✓";
-            color: #4ecdc4;
-            font-weight: bold;
+        .module-item.disabled {
+            opacity: 0.6;
+            background: #f5f5f5;
+        }
+
+        .module-toggle {
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .module-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        .module-name {
+            flex: 1;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .module-count {
+            color: #999;
+            font-size: 0.9em;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        .select-all-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .select-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .select-all-btn {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .select-all-btn:hover {
+            background: #45b8ad;
+            transform: translateY(-2px);
+        }
+
+        .deselect-all-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .deselect-all-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
         }
 
         /* Quiz Section */
@@ -156,6 +228,12 @@
             color: #667eea;
             font-size: 1.5em;
             margin-bottom: 5px;
+        }
+
+        .selected-modules {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 10px;
         }
 
         .progress-bar {
@@ -213,6 +291,8 @@
             text-align: center;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+            overflow-y: auto;
         }
 
         .flashcard-front {
@@ -346,6 +426,10 @@
             .action-buttons button {
                 width: 100%;
             }
+
+            .module-item {
+                flex-wrap: wrap;
+            }
         }
 
         /* Error Message */
@@ -394,23 +478,27 @@
             <div class="loading-text">Loading your flashcards...</div>
         </div>
 
-        <!-- File List -->
-        <div id="fileListSection" style="display: none;">
-            <div class="file-list">
-                <h3>📄 Loaded Files</h3>
-                <ul id="fileListUL"></ul>
+        <!-- Module Selection Section -->
+        <div id="moduleSelectionSection" style="display: none;">
+            <div class="module-selection">
+                <h3>📚 Select Modules to Study</h3>
+                <div class="module-list" id="moduleList"></div>
+                <div class="select-all-buttons">
+                    <button class="select-btn select-all-btn" id="selectAllBtn">✓ Select All</button>
+                    <button class="select-btn deselect-all-btn" id="deselectAllBtn">✗ Deselect All</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Begin Quiz Button -->
-        <div id="beginButtonContainer" style="display: none; text-align: center;">
-            <button id="beginButton" class="begin-button">Begin Quiz 🚀</button>
+            <div style="text-align: center;">
+                <button id="beginButton" class="begin-button">Begin Quiz 🚀</button>
+            </div>
         </div>
 
         <!-- Quiz Section -->
         <div id="quizSection" class="quiz-section">
             <div class="quiz-header">
                 <h2 id="cardNumber">Flashcard 1 of 1</h2>
+                <div class="selected-modules" id="selectedModulesDisplay"></div>
                 <div class="progress-bar">
                     <div id="progressFill" class="progress-fill"></div>
                 </div>
@@ -443,28 +531,30 @@
 
             <div class="action-buttons">
                 <button id="shuffleBtn" class="shuffle-button">🔀 Shuffle Again</button>
-                <button id="resetBtn" class="reset-button">↻ Reset & Reload</button>
+                <button id="resetBtn" class="reset-button">↻ Reset & Select Modules</button>
             </div>
         </div>
     </div>
 
     <script>
         // Configuration - UPDATE THESE WITH YOUR GITHUB INFO
-        const GITHUB_USERNAME = 'immgsa'; // Replace with your GitHub username
-        const REPO_NAME = 'gsaflashcards'; // Replace with your repo name
+        const GITHUB_USERNAME = 'YOUR-GITHUB-USERNAME'; // Replace with your GitHub username
+        const REPO_NAME = 'gsa-flashcard-quiz'; // Replace with your repo name
         const CONTENT_FOLDER = 'content'; // Folder containing .txt files
 
         // State Management
-        let flashcards = [];
+        let allFlashcards = {}; // Store flashcards by module
+        let selectedModules = {}; // Track which modules are selected
+        let activeFlashcards = []; // Flashcards to display
         let currentIndex = 0;
         let isFlipped = false;
-        let loadedFiles = [];
 
         // DOM Elements
         const loadingSection = document.getElementById('loadingSection');
-        const fileListSection = document.getElementById('fileListSection');
-        const fileListUL = document.getElementById('fileListUL');
-        const beginButtonContainer = document.getElementById('beginButtonContainer');
+        const moduleSelectionSection = document.getElementById('moduleSelectionSection');
+        const moduleList = document.getElementById('moduleList');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
         const beginButton = document.getElementById('beginButton');
         const quizSection = document.getElementById('quizSection');
         const flashcard = document.getElementById('flashcard');
@@ -473,6 +563,7 @@
         const cardNumber = document.getElementById('cardNumber');
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
+        const selectedModulesDisplay = document.getElementById('selectedModulesDisplay');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const resetBtn = document.getElementById('resetBtn');
@@ -489,7 +580,6 @@
         // Load Files from GitHub
         async function loadFlashcardsFromGitHub() {
             try {
-                // First, get the list of files in the content folder
                 const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
                 
                 const response = await fetch(apiUrl);
@@ -503,7 +593,6 @@
                     throw new Error('No files found in content folder');
                 }
 
-                // Filter for .txt files
                 const txtFiles = files.filter(file => file.name.endsWith('.txt'));
 
                 if (txtFiles.length === 0) {
@@ -511,42 +600,32 @@
                 }
 
                 // Load each .txt file
-                flashcards = [];
-                loadedFiles = [];
+                allFlashcards = {};
+                selectedModules = {};
 
                 for (const file of txtFiles) {
+                    const moduleName = file.name.replace('.txt', '');
                     const fileContent = await fetch(file.download_url);
                     const text = await fileContent.text();
                     const cards = parseFlashcards(text);
-                    flashcards.push(...cards);
-                    loadedFiles.push(file.name);
+                    
+                    if (cards.length > 0) {
+                        allFlashcards[moduleName] = cards;
+                        selectedModules[moduleName] = true; // Default to selected
+                    }
                 }
 
-                if (flashcards.length === 0) {
+                if (Object.keys(allFlashcards).length === 0) {
                     throw new Error('No valid flashcards found. Check your file format.');
                 }
 
-                // Shuffle the flashcards
-                flashcards = shuffleArray(flashcards);
-
-                // Update UI
-                updateFileList();
-                showBeginButton();
+                // Show module selection
+                showModuleSelection();
 
             } catch (error) {
                 showError(`Error loading flashcards: ${error.message}`);
                 console.error('Full error:', error);
             }
-        }
-
-        // Shuffle Function (Fisher-Yates Algorithm)
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
         }
 
         // Parse Flashcards
@@ -555,7 +634,6 @@
             const cards = [];
 
             for (const line of lines) {
-                // Match pattern: %$content$%,%$content$%
                 const match = line.match(/%\$(.*?)\$%\s*,\s*%\$(.*?)\$%/);
 
                 if (match) {
@@ -564,7 +642,6 @@
                         back: match[2].trim()
                     });
                 }
-                // Fallback to comma separator
                 else if (line.includes(',')) {
                     const [front, back] = line.split(',').map(s => s.trim());
                     if (front && back) {
@@ -576,28 +653,96 @@
             return cards;
         }
 
-        // Update File List Display
-        function updateFileList() {
-            fileListUL.innerHTML = loadedFiles
-                .map(name => `<li>${name}</li>`)
-                .join('');
+        // Show Module Selection
+        function showModuleSelection() {
+            loadingSection.style.display = 'none';
+            moduleSelectionSection.style.display = 'block';
+            quizSection.style.display = 'none';
+            updateModuleList();
         }
 
-        // Show Begin Button
-        function showBeginButton() {
-            loadingSection.style.display = 'none';
-            fileListSection.style.display = 'block';
-            beginButtonContainer.style.display = 'block';
-            quizSection.style.display = 'none';
+        // Update Module List Display
+        function updateModuleList() {
+            moduleList.innerHTML = Object.keys(allFlashcards).map(moduleName => {
+                const isSelected = selectedModules[moduleName];
+                const cardCount = allFlashcards[moduleName].length;
+                const toggleIcon = isSelected ? '✓' : '✗';
+                const toggleColor = isSelected ? 'color: #4ecdc4;' : 'color: #ff6b6b;';
+
+                return `
+                    <div class="module-item ${isSelected ? '' : 'disabled'}" data-module="${moduleName}">
+                        <div class="module-toggle" style="${toggleColor}" onclick="toggleModule('${moduleName}')">
+                            ${toggleIcon}
+                        </div>
+                        <div class="module-name">${moduleName}</div>
+                        <div class="module-count">${cardCount} cards</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle Module Selection
+        function toggleModule(moduleName) {
+            selectedModules[moduleName] = !selectedModules[moduleName];
+            updateModuleList();
+        }
+
+        // Select All Modules
+        selectAllBtn.addEventListener('click', () => {
+            Object.keys(allFlashcards).forEach(moduleName => {
+                selectedModules[moduleName] = true;
+            });
+            updateModuleList();
+        });
+
+        // Deselect All Modules
+        deselectAllBtn.addEventListener('click', () => {
+            Object.keys(allFlashcards).forEach(moduleName => {
+                selectedModules[moduleName] = false;
+            });
+            updateModuleList();
+        });
+
+        // Shuffle Function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Build Active Flashcards from Selected Modules
+        function buildActiveFlashcards() {
+            activeFlashcards = [];
+            const selectedModulesList = [];
+
+            Object.keys(allFlashcards).forEach(moduleName => {
+                if (selectedModules[moduleName]) {
+                    activeFlashcards.push(...allFlashcards[moduleName]);
+                    selectedModulesList.push(moduleName);
+                }
+            });
+
+            activeFlashcards = shuffleArray(activeFlashcards);
+            selectedModulesDisplay.textContent = `Modules: ${selectedModulesList.join(', ')}`;
         }
 
         // Begin Quiz
         beginButton.addEventListener('click', () => {
+            const selectedCount = Object.values(selectedModules).filter(v => v).length;
+            
+            if (selectedCount === 0) {
+                showError('Please select at least one module');
+                return;
+            }
+
+            buildActiveFlashcards();
             currentIndex = 0;
             isFlipped = false;
             loadingSection.style.display = 'none';
-            fileListSection.style.display = 'none';
-            beginButtonContainer.style.display = 'none';
+            moduleSelectionSection.style.display = 'none';
             quizSection.style.display = 'block';
             updateDisplay();
         });
@@ -610,20 +755,18 @@
 
         // Update Display
         function updateDisplay() {
-            const card = flashcards[currentIndex];
+            const card = activeFlashcards[currentIndex];
             frontContent.textContent = card.front;
             backContent.textContent = card.back;
-            cardNumber.textContent = `Flashcard ${currentIndex + 1} of ${flashcards.length}`;
-            progressText.textContent = `${currentIndex + 1}/${flashcards.length}`;
-            progressFill.style.width = `${((currentIndex + 1) / flashcards.length) * 100}%`;
+            cardNumber.textContent = `Flashcard ${currentIndex + 1} of ${activeFlashcards.length}`;
+            progressText.textContent = `${currentIndex + 1}/${activeFlashcards.length}`;
+            progressFill.style.width = `${((currentIndex + 1) / activeFlashcards.length) * 100}%`;
 
-            // Reset flip
             isFlipped = false;
             flashcard.classList.remove('flipped');
 
-            // Update button states
             prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === flashcards.length - 1;
+            nextBtn.disabled = currentIndex === activeFlashcards.length - 1;
         }
 
         // Navigation
@@ -635,7 +778,7 @@
         });
 
         nextBtn.addEventListener('click', () => {
-            if (currentIndex < flashcards.length - 1) {
+            if (currentIndex < activeFlashcards.length - 1) {
                 currentIndex++;
                 updateDisplay();
             }
@@ -643,8 +786,8 @@
 
         // Shuffle Again
         shuffleBtn.addEventListener('click', () => {
-            if (flashcards.length > 0) {
-                flashcards = shuffleArray(flashcards);
+            if (activeFlashcards.length > 0) {
+                activeFlashcards = shuffleArray(activeFlashcards);
                 currentIndex = 0;
                 isFlipped = false;
                 updateDisplay();
@@ -654,23 +797,19 @@
 
         // Reset
         resetBtn.addEventListener('click', () => {
-            flashcards = [];
+            activeFlashcards = [];
             currentIndex = 0;
             isFlipped = false;
-            loadedFiles = [];
-            loadingSection.style.display = 'flex';
-            fileListSection.style.display = 'none';
-            beginButtonContainer.style.display = 'none';
+            loadingSection.style.display = 'none';
+            moduleSelectionSection.style.display = 'block';
             quizSection.style.display = 'none';
             errorMessage.classList.remove('show');
-            loadFlashcardsFromGitHub();
         });
 
         // Error Handling
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.classList.add('show');
-            loadingSection.style.display = 'none';
             setTimeout(() => {
                 errorMessage.classList.remove('show');
             }, 7000);
