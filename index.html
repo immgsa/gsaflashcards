@@ -122,74 +122,131 @@
             font-size: 1.1em;
         }
 
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        /* Module List */
         .module-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        /* Scrollbar Styling */
+        .module-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .module-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .module-list::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .module-list::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
         }
 
         .module-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
+            justify-content: space-between;
+            padding: 15px;
             background: white;
             border-radius: 10px;
             border: 2px solid #e0e0e0;
             transition: all 0.3s ease;
             cursor: pointer;
+            user-select: none;
         }
 
         .module-item:hover {
             border-color: #667eea;
+            background: #f8f9ff;
             transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
         }
 
-        .module-item.disabled {
-            opacity: 0.6;
-            background: #f5f5f5;
+        .module-item.selected {
+            border-color: #4ecdc4;
+            background: #e8f9f7;
         }
 
-        .module-toggle {
-            font-size: 1.3em;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-            min-width: 30px;
-            text-align: center;
+        .module-item.hidden {
+            display: none;
         }
 
-        .module-toggle:hover {
-            transform: scale(1.2);
+        .module-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .module-name {
-            flex: 1;
             color: #333;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1em;
         }
 
         .module-count {
             color: #999;
-            font-size: 0.9em;
-            background: #f0f0f0;
-            padding: 4px 8px;
-            border-radius: 5px;
+            font-size: 0.85em;
         }
 
+        .module-status {
+            font-size: 1.5em;
+            transition: all 0.2s ease;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .module-item:hover .module-status {
+            transform: scale(1.15);
+        }
+
+        /* Select All Buttons */
         .select-all-buttons {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
         .select-btn {
             flex: 1;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.9em;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -202,6 +259,7 @@
         .select-all-btn:hover {
             background: #45b8ad;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
         }
 
         .deselect-all-btn {
@@ -212,6 +270,15 @@
         .deselect-all-btn:hover {
             background: #ff5252;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .selection-counter {
+            text-align: center;
+            color: #667eea;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         /* Quiz Section */
@@ -232,8 +299,13 @@
 
         .selected-modules {
             color: #999;
-            font-size: 0.9em;
+            font-size: 0.85em;
             margin-top: 10px;
+            max-height: 60px;
+            overflow-y: auto;
+            background: #f8f9ff;
+            padding: 8px 12px;
+            border-radius: 8px;
         }
 
         .progress-bar {
@@ -430,6 +502,10 @@
             .module-item {
                 flex-wrap: wrap;
             }
+
+            .module-list {
+                max-height: 300px;
+            }
         }
 
         /* Error Message */
@@ -460,6 +536,13 @@
         .success-message.show {
             display: block;
         }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -482,10 +565,29 @@
         <div id="moduleSelectionSection" style="display: none;">
             <div class="module-selection">
                 <h3>📚 Select Modules to Study</h3>
-                <div class="module-list" id="moduleList"></div>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="🔍 Search modules..."
+                    >
+                </div>
+
+                <!-- Selection Counter -->
+                <div class="selection-counter" id="selectionCounter">0 modules selected</div>
+
+                <!-- Select/Deselect All Buttons -->
                 <div class="select-all-buttons">
                     <button class="select-btn select-all-btn" id="selectAllBtn">✓ Select All</button>
                     <button class="select-btn deselect-all-btn" id="deselectAllBtn">✗ Deselect All</button>
+                </div>
+
+                <!-- Module List -->
+                <div class="module-list" id="moduleList">
+                    <div class="no-results">Loading modules...</div>
                 </div>
             </div>
 
@@ -538,14 +640,14 @@
 
     <script>
         // Configuration - UPDATE THESE WITH YOUR GITHUB INFO
-        const GITHUB_USERNAME = 'immgsa'; // Replace with your GitHub username
-        const REPO_NAME = 'gsaflashcards'; // Replace with your repo name
-        const CONTENT_FOLDER = 'content'; // Folder containing .txt files
+        const GITHUB_USERNAME = 'immgsa';
+        const REPO_NAME = 'gsaflashcards';
+        const CONTENT_FOLDER = 'content';
 
         // State Management
-        let allFlashcards = {}; // Store flashcards by module
-        let selectedModules = {}; // Track which modules are selected
-        let activeFlashcards = []; // Flashcards to display
+        let allFlashcards = {};
+        let selectedModules = {};
+        let activeFlashcards = [];
         let currentIndex = 0;
         let isFlipped = false;
 
@@ -553,8 +655,10 @@
         const loadingSection = document.getElementById('loadingSection');
         const moduleSelectionSection = document.getElementById('moduleSelectionSection');
         const moduleList = document.getElementById('moduleList');
+        const searchInput = document.getElementById('searchInput');
         const selectAllBtn = document.getElementById('selectAllBtn');
         const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const selectionCounter = document.getElementById('selectionCounter');
         const beginButton = document.getElementById('beginButton');
         const quizSection = document.getElementById('quizSection');
         const flashcard = document.getElementById('flashcard');
@@ -599,7 +703,6 @@
                     throw new Error('No .txt files found in content folder');
                 }
 
-                // Load each .txt file
                 allFlashcards = {};
                 selectedModules = {};
 
@@ -611,7 +714,7 @@
                     
                     if (cards.length > 0) {
                         allFlashcards[moduleName] = cards;
-                        selectedModules[moduleName] = true; // Default to selected
+                        selectedModules[moduleName] = true;
                     }
                 }
 
@@ -619,7 +722,6 @@
                     throw new Error('No valid flashcards found. Check your file format.');
                 }
 
-                // Show module selection
                 showModuleSelection();
 
             } catch (error) {
@@ -659,48 +761,85 @@
             moduleSelectionSection.style.display = 'block';
             quizSection.style.display = 'none';
             updateModuleList();
+            updateSelectionCounter();
         }
 
         // Update Module List Display
         function updateModuleList() {
-            moduleList.innerHTML = Object.keys(allFlashcards).map(moduleName => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const modules = Object.keys(allFlashcards);
+            let hasVisibleModules = false;
+
+            const moduleHTML = modules.map(moduleName => {
                 const isSelected = selectedModules[moduleName];
                 const cardCount = allFlashcards[moduleName].length;
-                const toggleIcon = isSelected ? '✓' : '✗';
-                const toggleColor = isSelected ? 'color: #4ecdc4;' : 'color: #ff6b6b;';
+                const statusIcon = isSelected ? '✓' : '○';
+                
+                // Check if module matches search
+                const matchesSearch = moduleName.toLowerCase().includes(searchTerm);
+                if (matchesSearch) {
+                    hasVisibleModules = true;
+                }
 
                 return `
-                    <div class="module-item ${isSelected ? '' : 'disabled'}" data-module="${moduleName}">
-                        <div class="module-toggle" style="${toggleColor}" onclick="toggleModule('${moduleName}')">
-                            ${toggleIcon}
+                    <div 
+                        class="module-item ${isSelected ? 'selected' : ''} ${matchesSearch ? '' : 'hidden'}" 
+                        data-module="${moduleName}"
+                        onclick="toggleModule('${moduleName}')"
+                    >
+                        <div class="module-info">
+                            <div class="module-name">${moduleName}</div>
+                            <div class="module-count">${cardCount} cards</div>
                         </div>
-                        <div class="module-name">${moduleName}</div>
-                        <div class="module-count">${cardCount} cards</div>
+                        <div class="module-status">${statusIcon}</div>
                     </div>
                 `;
             }).join('');
+
+            moduleList.innerHTML = moduleHTML || '<div class="no-results">No modules found</div>';
         }
 
         // Toggle Module Selection
         function toggleModule(moduleName) {
             selectedModules[moduleName] = !selectedModules[moduleName];
             updateModuleList();
+            updateSelectionCounter();
         }
+
+        // Update Selection Counter
+        function updateSelectionCounter() {
+            const selectedCount = Object.values(selectedModules).filter(v => v).length;
+            const totalCount = Object.keys(allFlashcards).length;
+            selectionCounter.textContent = `${selectedCount} of ${totalCount} modules selected`;
+        }
+
+        // Search Input Handler
+        searchInput.addEventListener('input', () => {
+            updateModuleList();
+        });
 
         // Select All Modules
         selectAllBtn.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
             Object.keys(allFlashcards).forEach(moduleName => {
-                selectedModules[moduleName] = true;
+                if (moduleName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[moduleName] = true;
+                }
             });
             updateModuleList();
+            updateSelectionCounter();
         });
 
         // Deselect All Modules
         deselectAllBtn.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
             Object.keys(allFlashcards).forEach(moduleName => {
-                selectedModules[moduleName] = false;
+                if (moduleName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[moduleName] = false;
+                }
             });
             updateModuleList();
+            updateSelectionCounter();
         });
 
         // Shuffle Function
@@ -726,7 +865,7 @@
             });
 
             activeFlashcards = shuffleArray(activeFlashcards);
-            selectedModulesDisplay.textContent = `Modules: ${selectedModulesList.join(', ')}`;
+            selectedModulesDisplay.textContent = `📚 Studying: ${selectedModulesList.join(', ')}`;
         }
 
         // Begin Quiz
@@ -800,10 +939,12 @@
             activeFlashcards = [];
             currentIndex = 0;
             isFlipped = false;
+            searchInput.value = '';
             loadingSection.style.display = 'none';
             moduleSelectionSection.style.display = 'block';
             quizSection.style.display = 'none';
             errorMessage.classList.remove('show');
+            updateModuleList();
         });
 
         // Error Handling
