@@ -543,15 +543,6 @@
             color: #999;
             font-style: italic;
         }
-
-        .debug-info {
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 0.8em;
-            color: #666;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -568,13 +559,12 @@
         <div id="loadingSection" class="loading-section">
             <div class="spinner"></div>
             <div class="loading-text">Loading your flashcards...</div>
-            <div class="debug-info" id="debugInfo"></div>
         </div>
 
         <!-- Module Selection Section -->
         <div id="moduleSelectionSection" style="display: none;">
             <div class="module-selection">
-                <h3>📚 Select Sheets to Study</h3>
+                <h3>📚 Select Modules to Study</h3>
                 
                 <!-- Search Bar -->
                 <div class="search-container">
@@ -582,12 +572,12 @@
                         type="text" 
                         id="searchInput" 
                         class="search-input" 
-                        placeholder="🔍 Search sheets..."
+                        placeholder="🔍 Search modules..."
                     >
                 </div>
 
                 <!-- Selection Counter -->
-                <div class="selection-counter" id="selectionCounter">0 sheets selected</div>
+                <div class="selection-counter" id="selectionCounter">0 modules selected</div>
 
                 <!-- Select/Deselect All Buttons -->
                 <div class="select-all-buttons">
@@ -597,7 +587,7 @@
 
                 <!-- Module List -->
                 <div class="module-list" id="moduleList">
-                    <div class="no-results">Loading sheets...</div>
+                    <div class="no-results">Loading modules...</div>
                 </div>
             </div>
 
@@ -643,19 +633,17 @@
 
             <div class="action-buttons">
                 <button id="shuffleBtn" class="shuffle-button">🔀 Shuffle Again</button>
-                <button id="resetBtn" class="reset-button">↻ Reset & Select Sheets</button>
+                <button id="resetBtn" class="reset-button">↻ Reset & Select Modules</button>
             </div>
         </div>
     </div>
 
-    <!-- Include SheetJS for Excel parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-
     <script>
-        // Configuration - UPDATE THESE WITH YOUR GITHUB INFO
+        // Configuration
         const GITHUB_USERNAME = 'immgsa';
         const REPO_NAME = 'gsaflashcards';
         const CONTENT_FOLDER = 'content';
+        const BRANCH = 'main';
 
         // State Management
         let allFlashcards = {};
@@ -666,7 +654,6 @@
 
         // DOM Elements
         const loadingSection = document.getElementById('loadingSection');
-        const debugInfo = document.getElementById('debugInfo');
         const moduleSelectionSection = document.getElementById('moduleSelectionSection');
         const moduleList = document.getElementById('moduleList');
         const searchInput = document.getElementById('searchInput');
@@ -690,123 +677,107 @@
         const successMessage = document.getElementById('successMessage');
         const flashcardContainer = document.getElementById('flashcardContainer');
 
-        // Initialize - Auto-load files on page load
+        // Initialize
         window.addEventListener('DOMContentLoaded', () => {
             loadFlashcardsFromGitHub();
         });
 
-        // Load Excel Files from GitHub
+        // Load CSV Files from GitHub
         async function loadFlashcardsFromGitHub() {
             try {
-                debugInfo.textContent = 'Fetching file list from GitHub...';
-
-                // Use the GitHub API to get the list of files
                 const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
                 
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
-                    throw new Error(`GitHub API error: ${response.status}`);
+                    throw new Error(`Failed to fetch files: ${response.status}`);
                 }
 
                 const files = await response.json();
-                debugInfo.textContent = `Found ${files.length} files in ${CONTENT_FOLDER}`;
 
                 if (!Array.isArray(files)) {
-                    throw new Error('Invalid response from GitHub API');
+                    throw new Error('No files found in content folder');
                 }
 
-                // Filter for .xlsx and .xls files
-                const excelFiles = files.filter(file => 
-                    file.name.endsWith('.xlsx') || file.name.endsWith('.xls')
-                );
+                // Filter for .csv files
+                const csvFiles = files.filter(file => file.name.endsWith('.csv'));
 
-                if (excelFiles.length === 0) {
-                    throw new Error('No Excel files (.xlsx or .xls) found in content folder');
+                if (csvFiles.length === 0) {
+                    throw new Error('No CSV files (.csv) found in content folder. Please use .csv format instead of .xlsx');
                 }
-
-                debugInfo.textContent = `Loading ${excelFiles.length} Excel file(s)...`;
 
                 allFlashcards = {};
                 selectedModules = {};
 
-                // Load each Excel file using raw GitHub content
-                for (const file of excelFiles) {
-                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${CONTENT_FOLDER}/${file.name}`;
-                    await loadExcelFileFromURL(rawUrl, file.name);
+                // Load each CSV file
+                for (const file of csvFiles) {
+                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${BRANCH}/${CONTENT_FOLDER}/${file.name}`;
+                    await loadCSVFileFromURL(rawUrl, file.name);
                 }
 
                 if (Object.keys(allFlashcards).length === 0) {
-                    throw new Error('No valid flashcards found in Excel files. Make sure Column A has front content and Column B has back content.');
+                    throw new Error('No valid flashcards found in CSV files.');
                 }
-
-                debugInfo.textContent = `Successfully loaded ${Object.keys(allFlashcards).length} sheet(s)!`;
 
                 // Show module selection
                 showModuleSelection();
 
             } catch (error) {
-                console.error('Error:', error);
                 showError(`Error loading flashcards: ${error.message}`);
-                debugInfo.textContent = `Error: ${error.message}`;
+                console.error('Full error:', error);
             }
         }
 
-        // Load Single Excel File from URL
-        function loadExcelFileFromURL(url, fileName) {
+        // Load Single CSV File from URL
+        function loadCSVFileFromURL(url, fileName) {
             return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.responseType = 'arraybuffer';
+                fetch(url)
+                    .then(response => response.text())
+                    .then(csvText => {
+                        const moduleName = fileName.replace('.csv', '');
+                        const cards = parseCSV(csvText);
 
-                xhr.onload = () => {
-                    try {
-                        const data = xhr.response;
-                        const workbook = XLSX.read(data, { type: 'array' });
-
-                        // Process each sheet in the workbook
-                        workbook.SheetNames.forEach(sheetName => {
-                            const worksheet = workbook.Sheets[sheetName];
-                            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                            const cards = [];
-                            
-                            // Skip header row if it exists (start from row 1)
-                            for (let i = 1; i < jsonData.length; i++) {
-                                const row = jsonData[i];
-                                
-                                if (row && row[0] && row[1]) {
-                                    const front = String(row[0]).trim();
-                                    const back = String(row[1]).trim();
-                                    
-                                    if (front && back) {
-                                        cards.push({ front, back });
-                                    }
-                                }
-                            }
-
-                            if (cards.length > 0) {
-                                allFlashcards[sheetName] = cards;
-                                selectedModules[sheetName] = true;
-                                console.log(`Loaded sheet "${sheetName}" with ${cards.length} cards from ${fileName}`);
-                            }
-                        });
+                        if (cards.length > 0) {
+                            allFlashcards[moduleName] = cards;
+                            selectedModules[moduleName] = true;
+                            console.log(`Loaded ${moduleName}: ${cards.length} cards`);
+                        }
 
                         resolve();
-                    } catch (error) {
-                        console.error('Error processing file:', error);
-                        showError(`Error processing file: ${fileName}`);
+                    })
+                    .catch(error => {
+                        showError(`Failed to load file: ${fileName}`);
+                        console.error('Error loading CSV:', error);
                         resolve();
-                    }
-                };
-
-                xhr.onerror = () => {
-                    console.error('XHR Error loading:', url);
-                    showError(`Failed to load file: ${fileName}`);
-                    resolve();
-                };
-
-                xhr.send();
+                    });
             });
+        }
+
+        // Parse CSV Format
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            const cards = [];
+
+            // Skip header row (first line)
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                // Split by tab or comma
+                const parts = line.includes('\t') 
+                    ? line.split('\t') 
+                    : line.split(',');
+
+                if (parts.length >= 2) {
+                    const front = parts[0].trim();
+                    const back = parts[1].trim();
+
+                    if (front && back) {
+                        cards.push({ front, back });
+                    }
+                }
+            }
+
+            return cards;
         }
 
         // Show Module Selection
@@ -821,24 +792,23 @@
         // Update Module List Display
         function updateModuleList() {
             const searchTerm = searchInput.value.toLowerCase();
-            const sheets = Object.keys(allFlashcards);
+            const modules = Object.keys(allFlashcards);
 
-            const moduleHTML = sheets.map(sheetName => {
-                const isSelected = selectedModules[sheetName];
-                const cardCount = allFlashcards[sheetName].length;
+            const moduleHTML = modules.map(moduleName => {
+                const isSelected = selectedModules[moduleName];
+                const cardCount = allFlashcards[moduleName].length;
                 const statusIcon = isSelected ? '✓' : '○';
                 
-                // Check if sheet matches search
-                const matchesSearch = sheetName.toLowerCase().includes(searchTerm);
+                const matchesSearch = moduleName.toLowerCase().includes(searchTerm);
 
                 return `
                     <div 
                         class="module-item ${isSelected ? 'selected' : ''} ${matchesSearch ? '' : 'hidden'}" 
-                        data-module="${sheetName}"
-                        onclick="toggleModule('${sheetName}')"
+                        data-module="${moduleName}"
+                        onclick="toggleModule('${moduleName}')"
                     >
                         <div class="module-info">
-                            <div class="module-name">${sheetName}</div>
+                            <div class="module-name">${moduleName}</div>
                             <div class="module-count">${cardCount} cards</div>
                         </div>
                         <div class="module-status">${statusIcon}</div>
@@ -846,12 +816,12 @@
                 `;
             }).join('');
 
-            moduleList.innerHTML = moduleHTML || '<div class="no-results">No sheets found</div>';
+            moduleList.innerHTML = moduleHTML || '<div class="no-results">No modules found</div>';
         }
 
         // Toggle Module Selection
-        function toggleModule(sheetName) {
-            selectedModules[sheetName] = !selectedModules[sheetName];
+        function toggleModule(moduleName) {
+            selectedModules[moduleName] = !selectedModules[moduleName];
             updateModuleList();
             updateSelectionCounter();
         }
@@ -860,7 +830,7 @@
         function updateSelectionCounter() {
             const selectedCount = Object.values(selectedModules).filter(v => v).length;
             const totalCount = Object.keys(allFlashcards).length;
-            selectionCounter.textContent = `${selectedCount} of ${totalCount} sheets selected`;
+            selectionCounter.textContent = `${selectedCount} of ${totalCount} modules selected`;
         }
 
         // Search Input Handler
@@ -871,9 +841,9 @@
         // Select All Modules
         selectAllBtn.addEventListener('click', () => {
             const searchTerm = searchInput.value.toLowerCase();
-            Object.keys(allFlashcards).forEach(sheetName => {
-                if (sheetName.toLowerCase().includes(searchTerm)) {
-                    selectedModules[sheetName] = true;
+            Object.keys(allFlashcards).forEach(moduleName => {
+                if (moduleName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[moduleName] = true;
                 }
             });
             updateModuleList();
@@ -883,9 +853,9 @@
         // Deselect All Modules
         deselectAllBtn.addEventListener('click', () => {
             const searchTerm = searchInput.value.toLowerCase();
-            Object.keys(allFlashcards).forEach(sheetName => {
-                if (sheetName.toLowerCase().includes(searchTerm)) {
-                    selectedModules[sheetName] = false;
+            Object.keys(allFlashcards).forEach(moduleName => {
+                if (moduleName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[moduleName] = false;
                 }
             });
             updateModuleList();
@@ -902,20 +872,20 @@
             return shuffled;
         }
 
-        // Build Active Flashcards from Selected Sheets
+        // Build Active Flashcards from Selected Modules
         function buildActiveFlashcards() {
             activeFlashcards = [];
-            const selectedSheetsList = [];
+            const selectedModulesList = [];
 
-            Object.keys(allFlashcards).forEach(sheetName => {
-                if (selectedModules[sheetName]) {
-                    activeFlashcards.push(...allFlashcards[sheetName]);
-                    selectedSheetsList.push(sheetName);
+            Object.keys(allFlashcards).forEach(moduleName => {
+                if (selectedModules[moduleName]) {
+                    activeFlashcards.push(...allFlashcards[moduleName]);
+                    selectedModulesList.push(moduleName);
                 }
             });
 
             activeFlashcards = shuffleArray(activeFlashcards);
-            selectedModulesDisplay.textContent = `📚 Studying: ${selectedSheetsList.join(', ')}`;
+            selectedModulesDisplay.textContent = `📚 Studying: ${selectedModulesList.join(', ')}`;
         }
 
         // Begin Quiz
@@ -923,7 +893,7 @@
             const selectedCount = Object.values(selectedModules).filter(v => v).length;
             
             if (selectedCount === 0) {
-                showError('Please select at least one sheet');
+                showError('Please select at least one module');
                 return;
             }
 
@@ -993,7 +963,6 @@
             loadingSection.style.display = 'flex';
             moduleSelectionSection.style.display = 'none';
             quizSection.style.display = 'none';
-            debugInfo.textContent = 'Reloading...';
             errorMessage.classList.remove('show');
             loadFlashcardsFromGitHub();
         });
