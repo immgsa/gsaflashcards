@@ -543,6 +543,15 @@
             color: #999;
             font-style: italic;
         }
+
+        .debug-info {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -559,6 +568,7 @@
         <div id="loadingSection" class="loading-section">
             <div class="spinner"></div>
             <div class="loading-text">Loading your flashcards...</div>
+            <div class="debug-info" id="debugInfo"></div>
         </div>
 
         <!-- Module Selection Section -->
@@ -656,6 +666,7 @@
 
         // DOM Elements
         const loadingSection = document.getElementById('loadingSection');
+        const debugInfo = document.getElementById('debugInfo');
         const moduleSelectionSection = document.getElementById('moduleSelectionSection');
         const moduleList = document.getElementById('moduleList');
         const searchInput = document.getElementById('searchInput');
@@ -687,17 +698,21 @@
         // Load Excel Files from GitHub
         async function loadFlashcardsFromGitHub() {
             try {
+                debugInfo.textContent = 'Fetching file list from GitHub...';
+
+                // Use the GitHub API to get the list of files
                 const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
                 
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch files: ${response.status}`);
+                    throw new Error(`GitHub API error: ${response.status}`);
                 }
 
                 const files = await response.json();
+                debugInfo.textContent = `Found ${files.length} files in ${CONTENT_FOLDER}`;
 
                 if (!Array.isArray(files)) {
-                    throw new Error('No files found in content folder');
+                    throw new Error('Invalid response from GitHub API');
                 }
 
                 // Filter for .xlsx and .xls files
@@ -709,32 +724,38 @@
                     throw new Error('No Excel files (.xlsx or .xls) found in content folder');
                 }
 
+                debugInfo.textContent = `Loading ${excelFiles.length} Excel file(s)...`;
+
                 allFlashcards = {};
                 selectedModules = {};
 
-                // Load each Excel file
+                // Load each Excel file using raw GitHub content
                 for (const file of excelFiles) {
-                    await loadExcelFileFromGitHub(file.download_url, file.name);
+                    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${CONTENT_FOLDER}/${file.name}`;
+                    await loadExcelFileFromURL(rawUrl, file.name);
                 }
 
                 if (Object.keys(allFlashcards).length === 0) {
                     throw new Error('No valid flashcards found in Excel files. Make sure Column A has front content and Column B has back content.');
                 }
 
+                debugInfo.textContent = `Successfully loaded ${Object.keys(allFlashcards).length} sheet(s)!`;
+
                 // Show module selection
                 showModuleSelection();
 
             } catch (error) {
+                console.error('Error:', error);
                 showError(`Error loading flashcards: ${error.message}`);
-                console.error('Full error:', error);
+                debugInfo.textContent = `Error: ${error.message}`;
             }
         }
 
-        // Load Single Excel File from GitHub
-        function loadExcelFileFromGitHub(downloadUrl, fileName) {
+        // Load Single Excel File from URL
+        function loadExcelFileFromURL(url, fileName) {
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', downloadUrl, true);
+                xhr.open('GET', url, true);
                 xhr.responseType = 'arraybuffer';
 
                 xhr.onload = () => {
@@ -766,6 +787,7 @@
                             if (cards.length > 0) {
                                 allFlashcards[sheetName] = cards;
                                 selectedModules[sheetName] = true;
+                                console.log(`Loaded sheet "${sheetName}" with ${cards.length} cards from ${fileName}`);
                             }
                         });
 
@@ -778,6 +800,7 @@
                 };
 
                 xhr.onerror = () => {
+                    console.error('XHR Error loading:', url);
                     showError(`Failed to load file: ${fileName}`);
                     resolve();
                 };
@@ -799,7 +822,6 @@
         function updateModuleList() {
             const searchTerm = searchInput.value.toLowerCase();
             const sheets = Object.keys(allFlashcards);
-            let hasVisibleModules = false;
 
             const moduleHTML = sheets.map(sheetName => {
                 const isSelected = selectedModules[sheetName];
@@ -808,9 +830,6 @@
                 
                 // Check if sheet matches search
                 const matchesSearch = sheetName.toLowerCase().includes(searchTerm);
-                if (matchesSearch) {
-                    hasVisibleModules = true;
-                }
 
                 return `
                     <div 
@@ -974,6 +993,7 @@
             loadingSection.style.display = 'flex';
             moduleSelectionSection.style.display = 'none';
             quizSection.style.display = 'none';
+            debugInfo.textContent = 'Reloading...';
             errorMessage.classList.remove('show');
             loadFlashcardsFromGitHub();
         });
