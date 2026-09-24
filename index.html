@@ -108,6 +108,58 @@
             transform: translateY(0);
         }
 
+        /* Upload Section */
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: translateY(-2px);
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8ebff;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .upload-area small {
+            color: #999;
+            display: block;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
         /* Module Selection */
         .module-selection {
             background: #f8f9ff;
@@ -555,16 +607,26 @@
         <div id="errorMessage" class="error-message"></div>
         <div id="successMessage" class="success-message"></div>
 
+        <!-- Upload Section -->
+        <div id="uploadSection" class="upload-section">
+            <div id="uploadArea" class="upload-area">
+                <div class="upload-icon">📊</div>
+                <p>Drop your Excel files here</p>
+                <small>or click to browse (.xlsx, .xls)</small>
+            </div>
+            <input type="file" id="fileInput" multiple accept=".xlsx,.xls">
+        </div>
+
         <!-- Loading Section -->
-        <div id="loadingSection" class="loading-section">
+        <div id="loadingSection" class="loading-section" style="display: none;">
             <div class="spinner"></div>
-            <div class="loading-text">Loading your flashcards...</div>
+            <div class="loading-text">Processing your Excel files...</div>
         </div>
 
         <!-- Module Selection Section -->
         <div id="moduleSelectionSection" style="display: none;">
             <div class="module-selection">
-                <h3>📚 Select Modules to Study</h3>
+                <h3>📚 Select Sheets to Study</h3>
                 
                 <!-- Search Bar -->
                 <div class="search-container">
@@ -572,12 +634,12 @@
                         type="text" 
                         id="searchInput" 
                         class="search-input" 
-                        placeholder="🔍 Search modules..."
+                        placeholder="🔍 Search sheets..."
                     >
                 </div>
 
                 <!-- Selection Counter -->
-                <div class="selection-counter" id="selectionCounter">0 modules selected</div>
+                <div class="selection-counter" id="selectionCounter">0 sheets selected</div>
 
                 <!-- Select/Deselect All Buttons -->
                 <div class="select-all-buttons">
@@ -587,7 +649,7 @@
 
                 <!-- Module List -->
                 <div class="module-list" id="moduleList">
-                    <div class="no-results">Loading modules...</div>
+                    <div class="no-results">Loading sheets...</div>
                 </div>
             </div>
 
@@ -633,17 +695,15 @@
 
             <div class="action-buttons">
                 <button id="shuffleBtn" class="shuffle-button">🔀 Shuffle Again</button>
-                <button id="resetBtn" class="reset-button">↻ Reset & Select Modules</button>
+                <button id="resetBtn" class="reset-button">↻ Reset & Upload New</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // Configuration - UPDATE THESE WITH YOUR GITHUB INFO
-        const GITHUB_USERNAME = 'immgsa';
-        const REPO_NAME = 'gsaflashcards';
-        const CONTENT_FOLDER = 'content';
+    <!-- Include SheetJS for Excel parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
 
+    <script>
         // State Management
         let allFlashcards = {};
         let selectedModules = {};
@@ -652,6 +712,9 @@
         let isFlipped = false;
 
         // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
         const loadingSection = document.getElementById('loadingSection');
         const moduleSelectionSection = document.getElementById('moduleSelectionSection');
         const moduleList = document.getElementById('moduleList');
@@ -676,87 +739,121 @@
         const successMessage = document.getElementById('successMessage');
         const flashcardContainer = document.getElementById('flashcardContainer');
 
-        // Initialize - Auto-load files on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            loadFlashcardsFromGitHub();
+        // Upload Area Click
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // Drag & Drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
         });
 
-        // Load Files from GitHub
-        async function loadFlashcardsFromGitHub() {
-            try {
-                const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
-                
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch files: ${response.status}`);
-                }
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
 
-                const files = await response.json();
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(f => 
+                f.name.endsWith('.xlsx') || f.name.endsWith('.xls')
+            );
+            processFiles(files);
+        });
 
-                if (!Array.isArray(files)) {
-                    throw new Error('No files found in content folder');
-                }
+        // File Input Change
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files).filter(f => 
+                f.name.endsWith('.xlsx') || f.name.endsWith('.xls')
+            );
+            processFiles(files);
+        });
 
-                const txtFiles = files.filter(file => file.name.endsWith('.txt'));
-
-                if (txtFiles.length === 0) {
-                    throw new Error('No .txt files found in content folder');
-                }
-
-                allFlashcards = {};
-                selectedModules = {};
-
-                for (const file of txtFiles) {
-                    const moduleName = file.name.replace('.txt', '');
-                    const fileContent = await fetch(file.download_url);
-                    const text = await fileContent.text();
-                    const cards = parseFlashcards(text);
-                    
-                    if (cards.length > 0) {
-                        allFlashcards[moduleName] = cards;
-                        selectedModules[moduleName] = true;
-                    }
-                }
-
-                if (Object.keys(allFlashcards).length === 0) {
-                    throw new Error('No valid flashcards found. Check your file format.');
-                }
-
-                showModuleSelection();
-
-            } catch (error) {
-                showError(`Error loading flashcards: ${error.message}`);
-                console.error('Full error:', error);
+        // Process Excel Files
+        async function processFiles(files) {
+            if (files.length === 0) {
+                showError('Please select Excel files (.xlsx or .xls)');
+                return;
             }
+
+            // Show loading screen
+            uploadSection.style.display = 'none';
+            loadingSection.style.display = 'flex';
+            moduleSelectionSection.style.display = 'none';
+
+            allFlashcards = {};
+            selectedModules = {};
+
+            for (const file of files) {
+                await processExcelFile(file);
+            }
+
+            if (Object.keys(allFlashcards).length === 0) {
+                showError('No valid flashcards found. Make sure Column A has front content and Column B has back content.');
+                uploadSection.style.display = 'flex';
+                loadingSection.style.display = 'none';
+                return;
+            }
+
+            // Simulate 2-second processing
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Show module selection
+            showModuleSelection();
         }
 
-        // Parse Flashcards
-        function parseFlashcards(text) {
-            const lines = text.split('\n').filter(line => line.trim());
-            const cards = [];
+        // Process Single Excel File
+        function processExcelFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
 
-            for (const line of lines) {
-                const match = line.match(/%\$(.*?)\$%\s*,\s*%\$(.*?)\$%/);
+                reader.onload = (e) => {
+                    try {
+                        const data = e.target.result;
+                        const workbook = XLSX.read(data, { type: 'array' });
 
-                if (match) {
-                    cards.push({
-                        front: match[1].trim(),
-                        back: match[2].trim()
-                    });
-                }
-                else if (line.includes(',')) {
-                    const [front, back] = line.split(',').map(s => s.trim());
-                    if (front && back) {
-                        cards.push({ front, back });
+                        // Process each sheet in the workbook
+                        workbook.SheetNames.forEach(sheetName => {
+                            const worksheet = workbook.Sheets[sheetName];
+                            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                            const cards = [];
+                            
+                            // Skip header row if it exists (start from row 1)
+                            for (let i = 1; i < jsonData.length; i++) {
+                                const row = jsonData[i];
+                                
+                                if (row && row[0] && row[1]) {
+                                    const front = String(row[0]).trim();
+                                    const back = String(row[1]).trim();
+                                    
+                                    if (front && back) {
+                                        cards.push({ front, back });
+                                    }
+                                }
+                            }
+
+                            if (cards.length > 0) {
+                                allFlashcards[sheetName] = cards;
+                                selectedModules[sheetName] = true;
+                            }
+                        });
+
+                        resolve();
+                    } catch (error) {
+                        console.error('Error processing file:', error);
+                        showError(`Error processing file: ${file.name}`);
+                        resolve();
                     }
-                }
-            }
+                };
 
-            return cards;
+                reader.readAsArrayBuffer(file);
+            });
         }
 
         // Show Module Selection
         function showModuleSelection() {
+            uploadSection.style.display = 'none';
             loadingSection.style.display = 'none';
             moduleSelectionSection.style.display = 'block';
             quizSection.style.display = 'none';
@@ -767,16 +864,16 @@
         // Update Module List Display
         function updateModuleList() {
             const searchTerm = searchInput.value.toLowerCase();
-            const modules = Object.keys(allFlashcards);
+            const sheets = Object.keys(allFlashcards);
             let hasVisibleModules = false;
 
-            const moduleHTML = modules.map(moduleName => {
-                const isSelected = selectedModules[moduleName];
-                const cardCount = allFlashcards[moduleName].length;
+            const moduleHTML = sheets.map(sheetName => {
+                const isSelected = selectedModules[sheetName];
+                const cardCount = allFlashcards[sheetName].length;
                 const statusIcon = isSelected ? '✓' : '○';
                 
-                // Check if module matches search
-                const matchesSearch = moduleName.toLowerCase().includes(searchTerm);
+                // Check if sheet matches search
+                const matchesSearch = sheetName.toLowerCase().includes(searchTerm);
                 if (matchesSearch) {
                     hasVisibleModules = true;
                 }
@@ -784,11 +881,11 @@
                 return `
                     <div 
                         class="module-item ${isSelected ? 'selected' : ''} ${matchesSearch ? '' : 'hidden'}" 
-                        data-module="${moduleName}"
-                        onclick="toggleModule('${moduleName}')"
+                        data-module="${sheetName}"
+                        onclick="toggleModule('${sheetName}')"
                     >
                         <div class="module-info">
-                            <div class="module-name">${moduleName}</div>
+                            <div class="module-name">${sheetName}</div>
                             <div class="module-count">${cardCount} cards</div>
                         </div>
                         <div class="module-status">${statusIcon}</div>
@@ -796,12 +893,12 @@
                 `;
             }).join('');
 
-            moduleList.innerHTML = moduleHTML || '<div class="no-results">No modules found</div>';
+            moduleList.innerHTML = moduleHTML || '<div class="no-results">No sheets found</div>';
         }
 
         // Toggle Module Selection
-        function toggleModule(moduleName) {
-            selectedModules[moduleName] = !selectedModules[moduleName];
+        function toggleModule(sheetName) {
+            selectedModules[sheetName] = !selectedModules[sheetName];
             updateModuleList();
             updateSelectionCounter();
         }
@@ -810,7 +907,7 @@
         function updateSelectionCounter() {
             const selectedCount = Object.values(selectedModules).filter(v => v).length;
             const totalCount = Object.keys(allFlashcards).length;
-            selectionCounter.textContent = `${selectedCount} of ${totalCount} modules selected`;
+            selectionCounter.textContent = `${selectedCount} of ${totalCount} sheets selected`;
         }
 
         // Search Input Handler
@@ -821,9 +918,9 @@
         // Select All Modules
         selectAllBtn.addEventListener('click', () => {
             const searchTerm = searchInput.value.toLowerCase();
-            Object.keys(allFlashcards).forEach(moduleName => {
-                if (moduleName.toLowerCase().includes(searchTerm)) {
-                    selectedModules[moduleName] = true;
+            Object.keys(allFlashcards).forEach(sheetName => {
+                if (sheetName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[sheetName] = true;
                 }
             });
             updateModuleList();
@@ -833,9 +930,9 @@
         // Deselect All Modules
         deselectAllBtn.addEventListener('click', () => {
             const searchTerm = searchInput.value.toLowerCase();
-            Object.keys(allFlashcards).forEach(moduleName => {
-                if (moduleName.toLowerCase().includes(searchTerm)) {
-                    selectedModules[moduleName] = false;
+            Object.keys(allFlashcards).forEach(sheetName => {
+                if (sheetName.toLowerCase().includes(searchTerm)) {
+                    selectedModules[sheetName] = false;
                 }
             });
             updateModuleList();
@@ -852,20 +949,20 @@
             return shuffled;
         }
 
-        // Build Active Flashcards from Selected Modules
+        // Build Active Flashcards from Selected Sheets
         function buildActiveFlashcards() {
             activeFlashcards = [];
-            const selectedModulesList = [];
+            const selectedSheetsList = [];
 
-            Object.keys(allFlashcards).forEach(moduleName => {
-                if (selectedModules[moduleName]) {
-                    activeFlashcards.push(...allFlashcards[moduleName]);
-                    selectedModulesList.push(moduleName);
+            Object.keys(allFlashcards).forEach(sheetName => {
+                if (selectedModules[sheetName]) {
+                    activeFlashcards.push(...allFlashcards[sheetName]);
+                    selectedSheetsList.push(sheetName);
                 }
             });
 
             activeFlashcards = shuffleArray(activeFlashcards);
-            selectedModulesDisplay.textContent = `📚 Studying: ${selectedModulesList.join(', ')}`;
+            selectedModulesDisplay.textContent = `📚 Studying: ${selectedSheetsList.join(', ')}`;
         }
 
         // Begin Quiz
@@ -873,13 +970,14 @@
             const selectedCount = Object.values(selectedModules).filter(v => v).length;
             
             if (selectedCount === 0) {
-                showError('Please select at least one module');
+                showError('Please select at least one sheet');
                 return;
             }
 
             buildActiveFlashcards();
             currentIndex = 0;
             isFlipped = false;
+            uploadSection.style.display = 'none';
             loadingSection.style.display = 'none';
             moduleSelectionSection.style.display = 'none';
             quizSection.style.display = 'block';
@@ -940,11 +1038,14 @@
             currentIndex = 0;
             isFlipped = false;
             searchInput.value = '';
+            allFlashcards = {};
+            selectedModules = {};
+            fileInput.value = '';
+            uploadSection.style.display = 'flex';
             loadingSection.style.display = 'none';
-            moduleSelectionSection.style.display = 'block';
+            moduleSelectionSection.style.display = 'none';
             quizSection.style.display = 'none';
             errorMessage.classList.remove('show');
-            updateModuleList();
         });
 
         // Error Handling
