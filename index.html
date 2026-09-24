@@ -682,7 +682,7 @@
             loadFlashcardsFromGitHub();
         });
 
-        // Load CSV Files from GitHub
+        // Load TSV Files from GitHub
         async function loadFlashcardsFromGitHub() {
             try {
                 const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${CONTENT_FOLDER}`;
@@ -698,24 +698,24 @@
                     throw new Error('No files found in content folder');
                 }
 
-                // Filter for .csv files
-                const csvFiles = files.filter(file => file.name.endsWith('.csv'));
+                // Filter for .tsv files
+                const tsvFiles = files.filter(file => file.name.endsWith('.tsv'));
 
-                if (csvFiles.length === 0) {
-                    throw new Error('No CSV files (.csv) found in content folder. Please use .csv format instead of .xlsx');
+                if (tsvFiles.length === 0) {
+                    throw new Error('No TSV files (.tsv) found in content folder. Please use .tsv format.');
                 }
 
                 allFlashcards = {};
                 selectedModules = {};
 
-                // Load each CSV file
-                for (const file of csvFiles) {
+                // Load each TSV file
+                for (const file of tsvFiles) {
                     const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/${BRANCH}/${CONTENT_FOLDER}/${file.name}`;
-                    await loadCSVFileFromURL(rawUrl, file.name);
+                    await loadTSVFileFromURL(rawUrl, file.name);
                 }
 
                 if (Object.keys(allFlashcards).length === 0) {
-                    throw new Error('No valid flashcards found in CSV files.');
+                    throw new Error('No valid flashcards found in TSV files.');
                 }
 
                 // Show module selection
@@ -727,14 +727,14 @@
             }
         }
 
-        // Load Single CSV File from URL
-        function loadCSVFileFromURL(url, fileName) {
+        // Load Single TSV File from URL
+        function loadTSVFileFromURL(url, fileName) {
             return new Promise((resolve, reject) => {
                 fetch(url)
                     .then(response => response.text())
-                    .then(csvText => {
-                        const moduleName = fileName.replace('.csv', '');
-                        const cards = parseCSV(csvText);
+                    .then(tsvText => {
+                        const moduleName = fileName.replace('.tsv', '');
+                        const cards = parseTSV(tsvText);
 
                         if (cards.length > 0) {
                             allFlashcards[moduleName] = cards;
@@ -746,15 +746,15 @@
                     })
                     .catch(error => {
                         showError(`Failed to load file: ${fileName}`);
-                        console.error('Error loading CSV:', error);
+                        console.error('Error loading TSV:', error);
                         resolve();
                     });
             });
         }
 
-        // Parse CSV Format
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n').filter(line => line.trim());
+        // Parse TSV Format (Tab-Separated Values)
+        function parseTSV(tsvText) {
+            const lines = tsvText.split('\n').filter(line => line.trim());
             const cards = [];
 
             // Skip header row (first line)
@@ -762,10 +762,8 @@
                 const line = lines[i].trim();
                 if (!line) continue;
 
-                // Split by tab or comma
-                const parts = line.includes('\t') 
-                    ? line.split('\t') 
-                    : line.split(',');
+                // Split by tab character
+                const parts = line.split('\t');
 
                 if (parts.length >= 2) {
                     const front = parts[0].trim();
